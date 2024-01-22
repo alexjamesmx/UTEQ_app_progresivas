@@ -1,4 +1,4 @@
-fetch("https://wikipedia.org")
+fetch("https://www.youtube.com")
   .then((resp) => resp.text())
   .then((html) => {
     console.log(html)
