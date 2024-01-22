@@ -1,15 +1,16 @@
-let user = {
-  name: "Alex Santiago",
-  age: 21,
-}
+fetch("./images/asiaticfood.jpg")
+  .then((response) => {
+    console.log(response)
+    return response.blob()
+  })
+  .then((blob) => {
+    console.log(blob)
+    let img = document.createElement("img")
+    img.setAttribute("id", "img")
+    img.src = URL.createObjectURL(blob)
 
-fetch("https://reqres.in/api/users", {
-  method: "POST",
-  body: JSON.stringify(user),
-  headers: {
-    "Content-Type": "application/json",
-  },
-})
-  .then((response) => response.json())
-  .then((json) => console.log(json))
-  .catch((error) => console.error("error personalizado ", error))
+    document.body.appendChild(img)
+  })
+  .catch((err) => {
+    console.error("Error personalizado: " + err)
+  })
