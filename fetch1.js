@@ -1,4 +1,8 @@
-fetch("https://fakestoreapi.com/products")
-  .then((response) => response.json())
-  .then((data) => console.log(data))
-  .catch((error) => console.log(error))
+fetch("https://wikipedia.org")
+  .then((resp) => resp.text())
+  .then((html) => {
+    console.log(html)
+    document.open()
+    document.write(html)
+    document.close()
+  })
