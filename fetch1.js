@@ -1,16 +1,32 @@
-fetch("./images/asiaticfood.jpg")
-  .then((response) => {
-    console.log(response)
-    return response.blob()
+const sumar = (n1, n2) => {
+  return new Promise((resolve, reject) => {
+    resolve(n1 + n2)
   })
-  .then((blob) => {
-    console.log(blob)
-    let img = document.createElement("img")
-    img.setAttribute("id", "img")
-    img.src = URL.createObjectURL(blob)
+}
 
-    document.body.appendChild(img)
+const resta = (n1, n2) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(function () {
+      resolve(n1 - n2)
+    }, 1200)
   })
-  .catch((err) => {
-    console.error("Error personalizado: " + err)
+}
+
+const mensaje = (mensaje) => {
+  return new Promise((resolve, reject) => {
+    resolve(mensaje)
   })
+}
+
+// error
+// const mensaje = (mensaje) => {
+//     return new Promise((resolve, reject) => {
+//         reject('Error en la promesa');
+//     });
+// }
+
+Promise.all([resta(8, 8), sumar(5, 5), mensaje("Hola miss")])
+  .then((respuestas) => {
+    console.log(respuestas)
+  })
+  .catch(console.log)
