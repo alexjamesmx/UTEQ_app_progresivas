@@ -1,32 +1,42 @@
-const sumar = (n1, n2) => {
+function promesaConTimeout(promesa, tiempoLimite) {
   return new Promise((resolve, reject) => {
-    resolve(n1 + n2)
+    const temporizador = setTimeout(() => {
+      // Si el temporizador se ejecuta antes de que la promesa se resuelva,
+      // rechazamos la nueva promesa con un mensaje indicando que se agotó el tiempo.
+      reject(new Error("Se ha agotado el tiempo"))
+    }, tiempoLimite)
+
+    promesa
+      .then((resultado) => {
+        // Si la promesa original se resuelve antes de que se agote el tiempo,
+        // limpiamos el temporizador y resolvemos la nueva promesa con el resultado.
+        clearTimeout(temporizador)
+        resolve(resultado)
+      })
+      .catch((error) => {
+        // Si la promesa original se rechaza, también limpiamos el temporizador
+        // y rechazamos la nueva promesa con el mismo error.
+        clearTimeout(temporizador)
+        reject(error)
+      })
   })
 }
 
-const resta = (n1, n2) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(function () {
-      resolve(n1 - n2)
-    }, 1200)
-  })
-}
+// Ejemplo de uso:
+const promesaOriginal = new Promise((resolve) => {
+  setTimeout(() => {
+    resolve("La promesa se ha resuelto")
+  }, 2000) // Esta promesa se resolverá después de 2000 milisegundos (2 segundos).
+})
 
-const mensaje = (mensaje) => {
-  return new Promise((resolve, reject) => {
-    resolve(mensaje)
-  })
-}
+const tiempoLimite = 2500 // aqui cambiamos el tiempo limite de la promesa
 
-// error
-// const mensaje = (mensaje) => {
-//     return new Promise((resolve, reject) => {
-//         reject('Error en la promesa');
-//     });
-// }
+const promesaConLimite = promesaConTimeout(promesaOriginal, tiempoLimite)
 
-Promise.all([resta(8, 8), sumar(5, 5), mensaje("Hola miss")])
-  .then((respuestas) => {
-    console.log(respuestas)
+promesaConLimite
+  .then((resultado) => {
+    console.log(resultado)
   })
-  .catch(console.log)
+  .catch((error) => {
+    console.error(error.message)
+  })
