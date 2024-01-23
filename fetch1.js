@@ -1,7 +1,7 @@
 const sumarLento = (numero) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(numero + 1)
+      reject("error en sumar lento")
     }, 800)
   })
 }
@@ -9,14 +9,14 @@ const sumarLento = (numero) => {
 const sumarRapido = (numero) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      console.log("sumar rapido")
       resolve(numero + 1)
     }, 300)
   })
 }
 
-//Promisse.all ejecuta todas las prmesas y devuelve unm arreglo con los resultados
-// Si una de las promesas falla, falla todo el arreglo
-Promise.all([sumarLento(5), sumarRapido(10), true, "Hola mundo"])
+//Promisse.race() devuelve la promesa que se resuelva primero
+Promise.race(sumarRapido(8), [sumarLento(5)])
   .then((respuestas) => {
     console.log(respuestas)
   })
