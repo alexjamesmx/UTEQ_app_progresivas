@@ -1,32 +1,20 @@
-function esperarNVeces(n) {
-  return new Promise(function (resolve, reject) {
-    // Verificamos que n sea un número positivo.
-    // esto lo ise porque si el valor de n es negativo o no es un numero
-    // la funcion se ejecuta infinitamente
-    if (typeof n !== "number" || n <= 0) {
-      reject(new Error("El valor de n debe ser un número positivo."))
-      return
-    }
+//uso de promesas
+// las promesas son objetos que representan la terminacion o el fracaso eventual de una operacion asincrona
 
-    function esperar(segundos) {
-      setTimeout(() => {
-        console.log(`¡He esperado ${segundos} veces!`)
-      }, segundos * 1000)
-    }
+let promesaExitosa = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("La operacion fue exitosa")
+  }, 3000)
+})
 
-    //se inicia el ciclo for para que se ejecute la funcion esperar n veces
-    for (let i = 1; i <= n; i++) {
-      esperar(i)
-    }
-  })
-}
+//manejo de promesas
+//then() se ejecuta cuando la promesa se resuelve exitosamente
+//catch() se ejecuta cuando la promesa se rechaza
 
-const N = 5 //aqui se puede cambiar el numero de veces que se ejecuta la funcion
-
-esperarNVeces(N)
+promesaExitosa
   .then((mensaje) => {
     console.log(mensaje)
   })
   .catch((error) => {
-    console.error("ERROR:", error.message)
+    console.error(error)
   })
